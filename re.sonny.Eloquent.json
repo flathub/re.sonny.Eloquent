@@ -4,7 +4,9 @@
   "runtime-version": "47",
   "sdk": "org.gnome.Sdk",
   "command": "re.sonny.Eloquent",
-  "sdk-extensions": ["org.freedesktop.Sdk.Extension.openjdk21"],
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.openjdk21"
+  ],
   "finish-args": [
     "--share=network",
     "--share=ipc",
@@ -15,9 +17,40 @@
   ],
   "modules": [
     {
+      "name": "fasttext",
+      "buildsystem": "simple",
+      "build-commands": [
+        "make",
+        "mkdir /app/fastText",
+        "cp fasttext *.o /app/fastText"
+      ],
+      "sources": [{
+          "type": "git",
+          "url": "https://github.com/facebookresearch/fastText.git",
+          "commit": "1142dc4c4ecbc19cc16eee5cdd28472e689267e6"
+          }
+      ]
+    },
+    {
+      "name": "fastText model",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cp lid.176.bin /app/fastText"
+      ],
+      "sources": [
+          {
+            "type": "file",
+            "url": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin",
+            "sha256": "7e69ec5451bc261cc7844e49e4792a85d7f09c06789ec800fc4a44aec362764e"
+          }
+      ]
+    },
+    {
       "name": "LanguageTool",
       "buildsystem": "simple",
-      "build-commands": ["cp -r . /app/LanguageTool"],
+      "build-commands": [
+        "cp -r . /app/LanguageTool"
+      ],
       "sources": [
         {
           "type": "archive",
@@ -29,14 +62,18 @@
         {
           "name": "openjdk",
           "buildsystem": "simple",
-          "build-commands": ["/usr/lib/sdk/openjdk21/install.sh"]
+          "build-commands": [
+            "/usr/lib/sdk/openjdk21/install.sh"
+          ]
         }
       ]
     },
     {
       "name": "blueprint-compiler",
       "buildsystem": "meson",
-      "cleanup": ["*"],
+      "cleanup": [
+        "*"
+      ],
       "sources": [
         {
           "type": "git",
@@ -47,14 +84,32 @@
       ]
     },
     {
+      "name": "libportal",
+      "buildsystem": "meson",
+      "config-opts": [
+        "-Dtests=false",
+        "-Dbackend-gtk3=disabled",
+        "-Dbackend-gtk4=enabled",
+        "-Dbackend-qt5=disabled",
+        "-Ddocs=false"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/flatpak/libportal/releases/download/0.9.1/libportal-0.9.1.tar.xz",
+          "sha256": "de801ee349ed3c255a9af3c01b1a401fab5b3fc1c35eb2fd7dfb35d4b8194d7f"
+        }
+      ]
+    },
+    {
       "name": "Eloquent",
       "buildsystem": "meson",
       "sources": [
         {
           "type": "git",
           "url": "https://github.com/sonnyp/Eloquent.git",
-          "commit": "04e7d82f0bc7ff445355a17f34a2559c3bf56da1",
-          "tag": "v1.0"
+          "commit": "08e2cb5e8c97dc267c66d36fbe1e7f300cc270f7",
+          "tag": "v1.1"
         }
       ]
     }
