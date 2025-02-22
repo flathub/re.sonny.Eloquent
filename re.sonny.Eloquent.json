@@ -108,8 +108,8 @@
         {
           "type": "git",
           "url": "https://github.com/sonnyp/Eloquent.git",
-          "commit": "08e2cb5e8c97dc267c66d36fbe1e7f300cc270f7",
-          "tag": "v1.1"
+          "commit": "41e52da35835e368dfbbac1fa97c31f6b34acd14",
+          "tag": "v1.2"
         }
       ]
     }
