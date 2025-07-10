@@ -1,117 +1,136 @@
 {
-  "id": "re.sonny.Eloquent",
-  "runtime": "org.gnome.Platform",
-  "runtime-version": "47",
-  "sdk": "org.gnome.Sdk",
-  "command": "re.sonny.Eloquent",
-  "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.openjdk21"
-  ],
-  "finish-args": [
-    "--share=network",
-    "--share=ipc",
-    "--socket=fallback-x11",
-    "--socket=wayland",
-    "--device=dri",
-    "--env=PATH=/app/jre/bin:/usr/bin:/app/bin"
-  ],
-  "modules": [
-    {
-      "name": "fasttext",
-      "buildsystem": "simple",
-      "build-commands": [
-        "make",
-        "mkdir /app/fastText",
-        "cp fasttext *.o /app/fastText"
-      ],
-      "sources": [{
-          "type": "git",
-          "url": "https://github.com/facebookresearch/fastText.git",
-          "commit": "1142dc4c4ecbc19cc16eee5cdd28472e689267e6"
-          }
-      ]
-    },
-    {
-      "name": "fastText model",
-      "buildsystem": "simple",
-      "build-commands": [
-        "cp lid.176.bin /app/fastText"
-      ],
-      "sources": [
-          {
-            "type": "file",
-            "url": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin",
-            "sha256": "7e69ec5451bc261cc7844e49e4792a85d7f09c06789ec800fc4a44aec362764e"
-          }
-      ]
-    },
-    {
-      "name": "LanguageTool",
-      "buildsystem": "simple",
-      "build-commands": [
-        "cp -r . /app/LanguageTool"
-      ],
-      "sources": [
+    "id": "re.sonny.Eloquent",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "48",
+    "sdk": "org.gnome.Sdk",
+    "command": "re.sonny.Eloquent",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.openjdk21"
+    ],
+    "finish-args": [
+        "--share=network",
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--env=PATH=/app/jre/bin:/usr/bin:/app/bin"
+    ],
+    "modules": [
         {
-          "type": "archive",
-          "url": "https://languagetool.org/download/LanguageTool-6.5.zip",
-          "sha256": "27f3ae5a29efbc8267a5a266908dfec205d16d312af8516e0b5bcec871edea0b"
-        }
-      ],
-      "modules": [
+            "name": "fasttext",
+            "buildsystem": "simple",
+            "build-commands": [
+                "make",
+                "mkdir /app/fastText",
+                "cp fasttext *.o /app/fastText"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/facebookresearch/fastText.git",
+                    "commit": "1142dc4c4ecbc19cc16eee5cdd28472e689267e6"
+                }
+            ]
+        },
         {
-          "name": "openjdk",
-          "buildsystem": "simple",
-          "build-commands": [
-            "/usr/lib/sdk/openjdk21/install.sh"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "blueprint-compiler",
-      "buildsystem": "meson",
-      "cleanup": [
-        "*"
-      ],
-      "sources": [
+            "name": "fastText model",
+            "buildsystem": "simple",
+            "build-commands": [
+                "cp lid.176.bin /app/fastText"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin",
+                    "sha256": "7e69ec5451bc261cc7844e49e4792a85d7f09c06789ec800fc4a44aec362764e"
+                }
+            ]
+        },
         {
-          "type": "git",
-          "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler.git",
-          "commit": "04ef0944db56ab01307a29aaa7303df6067cb3c0",
-          "tag": "v0.16.0"
-        }
-      ]
-    },
-    {
-      "name": "libportal",
-      "buildsystem": "meson",
-      "config-opts": [
-        "-Dtests=false",
-        "-Dbackend-gtk3=disabled",
-        "-Dbackend-gtk4=enabled",
-        "-Dbackend-qt5=disabled",
-        "-Ddocs=false"
-      ],
-      "sources": [
+            "name": "LanguageTool",
+            "buildsystem": "simple",
+            "build-commands": [
+                "cp -r . /app/LanguageTool"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://languagetool.org/download/LanguageTool-6.6.zip",
+                    "sha256": "53600506b399bb5ffe1e4c8dec794fd378212f14aaf38ccef9b6f89314d11631",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 241970,
+                        "url-template": "https://languagetool.org/download/LanguageTool-$version.zip"
+                    }
+                }
+            ],
+            "modules": [
+                {
+                    "name": "openjdk",
+                    "buildsystem": "simple",
+                    "build-commands": [
+                        "/usr/lib/sdk/openjdk21/install.sh"
+                    ]
+                }
+            ]
+        },
         {
-          "type": "archive",
-          "url": "https://github.com/flatpak/libportal/releases/download/0.9.1/libportal-0.9.1.tar.xz",
-          "sha256": "de801ee349ed3c255a9af3c01b1a401fab5b3fc1c35eb2fd7dfb35d4b8194d7f"
-        }
-      ]
-    },
-    {
-      "name": "Eloquent",
-      "buildsystem": "meson",
-      "sources": [
+            "name": "blueprint-compiler",
+            "buildsystem": "meson",
+            "cleanup": [
+                "*"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler.git",
+                    "commit": "07c9c9df9cd1b6b4454ecba21ee58211e9144a4b",
+                    "tag": "v0.18.0",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^v([\\d.]+)$"
+                    }
+                }
+            ]
+        },
         {
-          "type": "git",
-          "url": "https://github.com/sonnyp/Eloquent.git",
-          "commit": "93b9fb55b124fdf28203464d7e5b462f9b6c48a5",
-          "tag": "v1.2"
+            "name": "libportal",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dtests=false",
+                "-Dbackend-gtk3=disabled",
+                "-Dbackend-gtk4=enabled",
+                "-Dbackend-qt5=disabled",
+                "-Ddocs=false"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/flatpak/libportal/releases/download/0.9.1/libportal-0.9.1.tar.xz",
+                    "sha256": "de801ee349ed3c255a9af3c01b1a401fab5b3fc1c35eb2fd7dfb35d4b8194d7f",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 230124,
+                        "url-template": "https://github.com/flatpak/libportal/releases/download/$version/libportal-$version.tar.xz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Eloquent",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/sonnyp/Eloquent.git",
+                    "commit": "93b9fb55b124fdf28203464d7e5b462f9b6c48a5",
+                    "tag": "v1.2",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^v([\\d.]+)$"
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
